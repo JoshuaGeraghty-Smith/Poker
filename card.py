@@ -2,18 +2,27 @@ from dataclasses import dataclass, field
 import random
 from typing import List
 
-SUITS = ['Clubs', 'Spades', 'Hearts', 'Diamonds']
-RANKS = ['2', '3', '4', '5', '6', '7', '8', '9', '10', 'J', 'Q', 'K', 'A']
+SUITS = ('Clubs', 'Spades', 'Hearts', 'Diamonds')
+RANKS = ('2', '3', '4', '5', '6', '7', '8', '9', '10', 'J', 'Q', 'K', 'A')
 
 
-@dataclass
+@dataclass(order=True)
 class Card():
+
+    sort_index: int = field(init=False, repr=False)
     suit: SUITS
     rank: RANKS
     hidden: bool
 
+
+    def __post_init__(self):
+        self.sort_index = (RANKS.index(self.rank) * len(SUITS)
+                            + SUITS.index(self.suit))
+
     def __str__(self):
         return f'{self.suit} {self.rank}'
+
+
 
 
 @dataclass
@@ -59,7 +68,10 @@ class Hand():
 
 deck = Deck()
 deck.shuffle()
-print(deck)
-player_hand = Hand()
-player_hand.add_card(deck.deal_card())
-print(player_hand)
+card1 = deck.deal_card()
+print(card1)
+card2 = deck.deal_card()
+print(card2)
+if card1>card2:
+    print(4)
+
