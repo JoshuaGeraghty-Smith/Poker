@@ -2,7 +2,7 @@ from dataclasses import dataclass, field
 import random
 from typing import List
 
-SUITS = ['♣, ♢, ♡, ♠']
+SUITS = ['Clubs', 'Spades', 'Hearts', 'Diamonds']
 RANKS = ['2', '3', '4', '5', '6', '7', '8', '9', '10', 'J', 'Q', 'K', 'A']
 
 
@@ -13,7 +13,7 @@ class Card():
     hidden: bool
 
     def __str__(self):
-        return f'{self.suit}{self.rank}'
+        return f'{self.suit} {self.rank}'
 
 
 @dataclass
@@ -25,6 +25,10 @@ class Deck():
 
     def __len__(self):
         return len(self.cards)
+
+    def __repr__(self):
+        cards = ', '.join(f'{r}' for r in self.cards)
+        return f'{self.__class__.__name__}({cards})'
 
     def shuffle(self):
         random.shuffle(self.cards)
@@ -41,6 +45,10 @@ class Hand():
     def __iter__(self):
         yield from dataclasses.astuple(self)
 
+    def __repr__(self):
+        cards = ', '.join(f'{r}' for r in self.cards)
+        return f'{self.__class__.__name__}({cards})'
+
     def add_card(self, card):
         self.cards.append(card)
 
@@ -51,7 +59,7 @@ class Hand():
 
 deck = Deck()
 deck.shuffle()
-#print(deck)
+print(deck)
 player_hand = Hand()
 player_hand.add_card(deck.deal_card())
 print(player_hand)
