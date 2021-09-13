@@ -1,20 +1,24 @@
-import dataclasses
+from dataclasses import dataclass, field
 import random
+from typing import List
 
-SUITS = ['Clubs', 'Spades', 'Hearts', 'Diamonds']
+SUITS = ['♣, ♢, ♡, ♠']
 RANKS = ['2', '3', '4', '5', '6', '7', '8', '9', '10', 'J', 'Q', 'K', 'A']
 
 
-@dataclasses.dataclass
+@dataclass
 class Card():
     suit: SUITS
     rank: RANKS
     hidden: bool
 
+    def __str__(self):
+        return f'{self.suit}{self.rank}'
 
-@dataclasses.dataclass
+
+@dataclass
 class Deck():
-    cards: [Card]
+    cards: List[Card] = field(default_factory= lambda:[Card(suit, rank, False) for suit in SUITS for rank in RANKS])
 
     def __iter__(self):
         yield from dataclasses.astuple(self)
@@ -30,20 +34,24 @@ class Deck():
         return card
 
 
-@dataclasses.dataclass
+@dataclass
 class Hand():
-    cards: [Card]
+    cards: List[Card] = field(default_factory= lambda:[])
 
     def __iter__(self):
         yield from dataclasses.astuple(self)
 
     def add_card(self, card):
-        self.hand.append(card)
+        self.cards.append(card)
 
 
-cards = [Card(suit, rank, False) for suit in SUITS for rank in RANKS]
-deck = Deck(cards)
+
+
+
+
+deck = Deck()
 deck.shuffle()
-for card in deck:
-    print(card)
-print(len(deck))
+#print(deck)
+player_hand = Hand()
+player_hand.add_card(deck.deal_card())
+print(player_hand)
