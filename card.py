@@ -66,12 +66,5 @@ class Hand():
 
 
 
-deck = Deck()
-deck.shuffle()
-card1 = deck.deal_card()
-print(card1)
-card2 = deck.deal_card()
-print(card2)
-if card1>card2:
-    print(4)
+
 
