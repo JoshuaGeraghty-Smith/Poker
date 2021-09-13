@@ -12,13 +12,15 @@ class Card():
     hidden: bool
 
 
-
 @dataclasses.dataclass
 class Deck():
     cards: [Card]
 
     def __iter__(self):
         yield from dataclasses.astuple(self)
+
+    def __len__(self):
+        return len(self.cards)
 
     def shuffle(self):
         random.shuffle(self.cards)
@@ -44,3 +46,4 @@ deck = Deck(cards)
 deck.shuffle()
 for card in deck:
     print(card)
+print(len(deck))
