@@ -29,6 +29,15 @@ class Card():
     def __post_init__(self):
         self.sort_index = (RANKS.index(self.rank) * len(SUITS))
 
+    def __eq__(self, other):
+        """
+        Only look at rank.
+        """
+        if not isinstance(other, Card):
+            return NotImplemented
+        return self.rank == other.rank
+
+
     def __str__(self):
         return f'{self.suit} {self.rank}'
 
@@ -80,13 +89,11 @@ class Hand(ABC):
         holding = ', '.join(f'{r}' for r in self.holding)
         return f'{self.__class__.__name__}({holding})'
 
-
     @abstractmethod
     def add_holdable(self, obj):
         pass
 
 class PokerHand(Hand):
 
-
-    def add_holdable(self, card):
-        self.holding.append(card)
+    def add_holdable(self, obj):
+        self.holding.append(obj)
