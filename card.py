@@ -37,13 +37,12 @@ class Card():
             return NotImplemented
         return self.rank == other.rank
 
-
     def __str__(self):
         return f'{self.suit} {self.rank}'
 
 
-@dataclass
-class Deck():
+@dataclass()
+class FullDeck():
     """
     Class to model a deck of cards.
     Has cards attribute which is a list type. Has a default factory to run a function on initialization.
@@ -51,6 +50,7 @@ class Deck():
     """
 
     # Lambda function creates a list of 52 unique Cards using the SUITS and RANKS tuples.
+
     cards: List[Card] = field(default_factory=lambda: [Card(suit, rank, False) for suit in SUITS for rank in RANKS])
 
     def __iter__(self):
@@ -58,6 +58,14 @@ class Deck():
 
     def __len__(self):
         return len(self.cards)
+
+    def __eq__(self, other):
+        """
+        Needs to have same order and contents to be equal.
+        """
+        if not isinstance(other, FullDeck):
+            return NotImplemented
+        return self.cards == other.cards
 
     def __repr__(self):
         cards = ', '.join(f'{r}' for r in self.cards)

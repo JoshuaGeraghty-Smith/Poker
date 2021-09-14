@@ -31,5 +31,32 @@ class TestCard(unittest.TestCase):
         self.assertTrue(self.card5 < self.card4)
 
 
+class TestDeck(unittest.TestCase):
+    def setUp(self):
+        self.deck1 = FullDeck()
+        self.deck2 = FullDeck()
+        self.deck3 = FullDeck()
+        self.deck4 = FullDeck()
+        self.deck5 = FullDeck()
+
+
+
+        self.deck3.shuffle()
+        self.deck4.deal_card()
+        self.deck5.deal_card()
+        self.deck5.shuffle()
+
+
+    def test_equals(self):
+        self.assertEqual(self.deck1, self.deck2)
+        self.assertEqual(self.deck3, self.deck3)
+        self.assertNotEqual(self.deck5, self.deck4)
+        self.assertNotEqual(self.deck1, self.deck3)
+        self.assertNotEqual(self.deck5, self.deck3)
+
+
+
+
+
 if __name__ == "__main__":
     unittest.main()
