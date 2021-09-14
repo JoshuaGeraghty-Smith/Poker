@@ -1,4 +1,5 @@
 from dataclasses import dataclass, field, astuple
+from abc import ABC, abstractmethod
 import random
 from typing import List
 
@@ -62,7 +63,7 @@ class Deck():
 
 
 @dataclass
-class Hand():
+class Hand(ABC):
     """
     Class to model a hand.
     Has cards attribute which is a list type. Has a default factory to run a function on initialization.
@@ -70,14 +71,22 @@ class Hand():
     """
 
     # Lambda function creates an empty list
-    cards: List[Card] = field(default_factory=lambda: [])
+    holding: List = field(default_factory=lambda: [])
 
     def __iter__(self):
         yield from astuple(self)
 
     def __repr__(self):
-        cards = ', '.join(f'{r}' for r in self.cards)
-        return f'{self.__class__.__name__}({cards})'
+        holding = ', '.join(f'{r}' for r in self.holding)
+        return f'{self.__class__.__name__}({holding})'
 
-    def add_card(self, card):
-        self.cards.append(card)
+
+    @abstractmethod
+    def add_holdable(self, obj):
+        pass
+
+class PokerHand(Hand):
+
+
+    def add_holdable(self, card):
+        self.holding.append(card)
