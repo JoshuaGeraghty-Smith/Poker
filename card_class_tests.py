@@ -55,6 +55,16 @@ class TestDeck(unittest.TestCase):
         self.assertNotEqual(self.deck5, self.deck3)
 
 
+class TestPokerHand(unittest.TestCase):
+    def setUp(self):
+        self.hand1 = PokerHand()
+        self.hand2 = PokerHand()
+
+    def test_equals(self):
+        self.assertEqual(self.hand1, self.hand2)
+
+
+
 
 
 
