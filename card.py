@@ -8,35 +8,43 @@ RANKS = ('2', '3', '4', '5', '6', '7', '8', '9', '10', 'J', 'Q', 'K', 'A')
 
 @dataclass(order=True)
 class Card():
+    """
+    Class to model a card.
 
+    Each card has a suit (picked from SUITS tuple) and a rank (picked from RANKS tuple);
+    these need to be set when initializing.
 
+    Sort index is used to give cards an int value so they can be compared i.e 'Spades K' > 'Heart Q'
+    will be True (__post_init__ sets the sort index).
+
+    Hidden is a bool value, to note if players can see the card or not.
+    """
 
     sort_index: int = field(init=False, repr=False)
     suit: SUITS
     rank: RANKS
     hidden: bool
 
-
     def __post_init__(self):
-        self.sort_index = (RANKS.index(self.rank) * len(SUITS)
-                            + SUITS.index(self.suit))
+        self.sort_index = (RANKS.index(self.rank) * len(SUITS))
 
     def __str__(self):
         return f'{self.suit} {self.rank}'
 
 
-
-
 @dataclass
 class Deck():
     """
-
-
+    Class to model a deck of cards.
+    Has cards attribute which is a list type. Has a default factory to run a function on initialization.
+    Can be iterated through and length is the length of the cards attribute.
     """
-    cards: List[Card] = field(default_factory= lambda:[Card(suit, rank, False) for suit in SUITS for rank in RANKS])
+
+    # Lambda function creates a list of 52 unique Cards using the SUITS and RANKS tuples.
+    cards: List[Card] = field(default_factory=lambda: [Card(suit, rank, False) for suit in SUITS for rank in RANKS])
 
     def __iter__(self):
-        yield from dataclasses.astuple(self)
+        yield from astuple(self)
 
     def __len__(self):
         return len(self.cards)
@@ -55,10 +63,17 @@ class Deck():
 
 @dataclass
 class Hand():
-    cards: List[Card] = field(default_factory= lambda:[])
+    """
+    Class to model a hand.
+    as cards attribute which is a list type. Has a default factory to run a function on initialization.
+
+    """
+
+    # Lambda function creates an empty list
+    cards: List[Card] = field(default_factory=lambda: [])
 
     def __iter__(self):
-        yield from dataclasses.astuple(self)
+        yield from astuple(self)
 
     def __repr__(self):
         cards = ', '.join(f'{r}' for r in self.cards)
@@ -66,5 +81,3 @@ class Hand():
 
     def add_card(self, card):
         self.cards.append(card)
-
-
