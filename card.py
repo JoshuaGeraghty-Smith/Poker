@@ -1,4 +1,4 @@
-from dataclasses import dataclass, field
+from dataclasses import dataclass, field, astuple
 import random
 from typing import List
 
@@ -65,7 +65,7 @@ class Deck():
 class Hand():
     """
     Class to model a hand.
-    as cards attribute which is a list type. Has a default factory to run a function on initialization.
+    Has cards attribute which is a list type. Has a default factory to run a function on initialization.
 
     """
 
