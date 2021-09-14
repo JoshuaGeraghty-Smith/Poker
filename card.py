@@ -9,6 +9,8 @@ RANKS = ('2', '3', '4', '5', '6', '7', '8', '9', '10', 'J', 'Q', 'K', 'A')
 @dataclass(order=True)
 class Card():
 
+
+
     sort_index: int = field(init=False, repr=False)
     suit: SUITS
     rank: RANKS
@@ -27,6 +29,10 @@ class Card():
 
 @dataclass
 class Deck():
+    """
+
+
+    """
     cards: List[Card] = field(default_factory= lambda:[Card(suit, rank, False) for suit in SUITS for rank in RANKS])
 
     def __iter__(self):
@@ -60,11 +66,5 @@ class Hand():
 
     def add_card(self, card):
         self.cards.append(card)
-
-
-
-
-
-
 
 
