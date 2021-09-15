@@ -27,7 +27,7 @@ class Card():
     hidden: bool
 
     def __post_init__(self):
-        self.sort_index = (RANKS.index(self.rank) * len(SUITS))
+        self.sort_index = (RANKS.index(self.rank))
 
     def __eq__(self, other):
         """

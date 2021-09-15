@@ -39,13 +39,10 @@ class TestDeck(unittest.TestCase):
         self.deck4 = FullDeck()
         self.deck5 = FullDeck()
 
-
-
         self.deck3.shuffle()
         self.deck4.deal_card()
         self.deck5.deal_card()
         self.deck5.shuffle()
-
 
     def test_equals(self):
         self.assertEqual(self.deck1, self.deck2)
@@ -62,10 +59,6 @@ class TestPokerHand(unittest.TestCase):
 
     def test_equals(self):
         self.assertEqual(self.hand1, self.hand2)
-
-
-
-
 
 
 if __name__ == "__main__":

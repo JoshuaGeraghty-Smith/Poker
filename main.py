@@ -16,13 +16,9 @@ for _ in range(0, num_of_cards_in_hand):
     player2.hand.add_holdable(deck.deal_card())
 
 
-print(player1)
-print(player2)
+card1 = Card('Clubs', 'J', False)
+card2 = Card('Spades', '2', True)
 
-deck2 = FullDeck()
-deck3 = FullDeck()
-deck3.shuffle()
-deck3.deal_card()
+print(card1.sort_index)
+print(card2.sort_index)
 
-print(deck2.sort_index)
-print(deck3.sort_index)
