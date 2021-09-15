@@ -1,5 +1,7 @@
 from card import *
+from texas_holdem_hashtable import suit_dep
 import unittest
+import numpy as np
 
 
 class TestCard(unittest.TestCase):
@@ -59,6 +61,31 @@ class TestPokerHand(unittest.TestCase):
 
     def test_equals(self):
         self.assertEqual(self.hand1, self.hand2)
+
+
+
+class TestLookupTable(unittest.TestCase):
+        def setUp(self):
+            #self.non_suit_dep = non_suit_dep
+            self.suit_dep = suit_dep
+
+
+        def test_hash_uniqueness(self):
+            print(self.suit_dep.keys())
+            new_keys = []
+            for five_cards in self.suit_dep.keys():
+                new_five_cards = []
+                for rank in five_cards:
+                    card = Card('Spades', rank, False)
+                    new_five_cards.append(card)
+                new_keys.append(five_cards)
+            hashed_keys = []
+            for five_cards in new_keys:
+                hand_hash = sum(hash(card) for card in five_cards)
+                hashed_keys.append(hand_hash)
+
+            print(hashed_keys)
+            self.assertEqual(np.unique(hashed_keys).size, len(hashed_keys))
 
 
 if __name__ == "__main__":

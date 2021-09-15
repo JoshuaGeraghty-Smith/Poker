@@ -1,13 +1,16 @@
 from dataclasses import dataclass, field, astuple
 from abc import ABC, abstractmethod
 import random
+from texas_holdem_hashtable import suit_dep, not_suit_dep
 from typing import List
+from itertools import combinations
+import numpy as np
 
 SUITS = ('Clubs', 'Spades', 'Hearts', 'Diamonds')
-RANKS = ('2', '3', '4', '5', '6', '7', '8', '9', '10', 'J', 'Q', 'K', 'A')
+RANKS = ('2', '3', '4', '5', '6', '7', '8', '9', 'T', 'J', 'Q', 'K', 'A')
 
 
-@dataclass(order=True)
+@dataclass(order=True, eq=True, unsafe_hash=True)
 class Card():
     """
     Class to model a card.
@@ -101,7 +104,32 @@ class Hand(ABC):
     def add_holdable(self, obj):
         pass
 
+
+@dataclass(order=True)
 class PokerHand(Hand):
+
+    #sort_index: int = field(init=False, repr=False)
+    holding: List[Card] = field(default_factory=lambda: [])
+    #value: int
 
     def add_holdable(self, obj):
         self.holding.append(obj)
+
+    def is_suited(self, community_cards):
+        my_cards = self.holding + community_cards
+        for suit in SUITS:
+            if sum(card.suit == suit for card in my_cards) >= 5:
+                for five_cards in combinations(my_cards, 5):
+                    print(five_cards)
+            for five_cards in combinations(my_cards, 5):
+                sum(hash(card) for card in five_cards)
+
+
+
+
+                #print(not_suit_dep.get(ranks))
+
+    def combination_of_hands(self, community_cards):
+        my_cards = self.holding + community_cards
+
+

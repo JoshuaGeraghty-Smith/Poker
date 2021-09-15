@@ -16,9 +16,15 @@ for _ in range(0, num_of_cards_in_hand):
     player2.hand.add_holdable(deck.deal_card())
 
 
-card1 = Card('Clubs', 'J', False)
-card2 = Card('Spades', '2', True)
 
-print(card1.sort_index)
-print(card2.sort_index)
+com=[Card('Clubs', '7', False),
+Card('Spades', '8', True),
+Card('Hearts', 'K', False),
+Card('Spades', 'A', False),
+Card('Diamonds', '4', False)]
+
+
+
+print(player1)
+player1.hand.is_suited(com)
 
