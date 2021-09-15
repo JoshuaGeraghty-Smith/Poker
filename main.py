@@ -19,12 +19,16 @@ for _ in range(0, num_of_cards_in_hand):
 
 com=[Card('Clubs', '7', False),
 Card('Spades', '8', True),
-Card('Hearts', 'K', False),
+Card('Hearts', '7', True),
 Card('Spades', 'A', False),
 Card('Diamonds', '4', False)]
 
 
 
-print(player1)
-player1.hand.is_suited(com)
+
+
+
+print(hash(com[0]))
+print(hash(com[0]))
+
 
