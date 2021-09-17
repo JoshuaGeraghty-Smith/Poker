@@ -116,13 +116,16 @@ class PokerHand():
         my_cards = self.holding + self.community_cards
 
 
-
+        suit_hand = []
         for suit in SUITS:
             if sum(card.suit == suit for card in my_cards) >= 5:
                 suited_cards = [card for card in my_cards if card.suit == suit]
-                print(suited_cards)
-                return self.find_best_hand(suited_cards, suit_dep)
-        return self.find_best_hand(my_cards, not_suit_dep)
+                suit_hand=self.find_best_hand(suited_cards, hash_table=suit_dep)
+
+        values=[self.find_best_hand(five_cards, not_suit_dep) for five_cards in combinations(my_cards, 5)]
+        values = [x for x in values if x is not None]
+        return min(min(values), suit_hand)
+
 
     @staticmethod
     def _hash_func(hand, hash_table):
@@ -130,15 +133,14 @@ class PokerHand():
         for card in hand:
             ranks_of_hand.append(card.rank)
         lookup_string="".join(sorted(ranks_of_hand))
-        print(lookup_string)
         return hash_table.get(lookup_string)
 
     def find_best_hand(self, cards, hash_table):
         for five_cards in combinations(cards, 5):
             value = self._hash_func(five_cards, hash_table)
             if value is not None:
-                return value
-
+                return int(value)
+        return None
 
 
 
