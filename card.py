@@ -1,16 +1,17 @@
 from dataclasses import dataclass, field, astuple
 from abc import ABC, abstractmethod
 import random
-from texas_holdem_hashtable import suit_dep, not_suit_dep
+from poker_lookup_table import suit_dep, not_suit_dep
 from typing import List
 from itertools import combinations
 import numpy as np
+from collections import namedtuple
 
 SUITS = ('Clubs', 'Spades', 'Hearts', 'Diamonds')
 RANKS = ('2', '3', '4', '5', '6', '7', '8', '9', 'T', 'J', 'Q', 'K', 'A')
 
 
-@dataclass(order=True, eq=True, unsafe_hash=True)
+@dataclass(order=True, eq=True, frozen=True)
 class Card():
     """
     Class to model a card.
@@ -23,14 +24,10 @@ class Card():
 
     Hidden is a bool value, to note if players can see the card or not.
     """
-
-    sort_index: int = field(init=False, repr=False)
+    __slots__ = ('rank', 'suit')
     suit: SUITS
     rank: RANKS
-    hidden: bool
 
-    def __post_init__(self):
-        self.sort_index = (RANKS.index(self.rank))
 
     def __eq__(self, other):
         """
@@ -54,7 +51,7 @@ class FullDeck():
 
     # Lambda function creates a list of 52 unique Cards using the SUITS and RANKS tuples.
 
-    cards: List[Card] = field(default_factory=lambda: [Card(suit, rank, False) for suit in SUITS for rank in RANKS])
+    cards: List[Card] = field(default_factory=lambda: [Card(suit, rank) for suit in SUITS for rank in RANKS])
 
     def __iter__(self):
         yield from astuple(self)
@@ -105,31 +102,50 @@ class Hand(ABC):
         pass
 
 
-@dataclass(order=True)
-class PokerHand(Hand):
+@dataclass()
+class PokerHand():
 
-    #sort_index: int = field(init=False, repr=False)
     holding: List[Card] = field(default_factory=lambda: [])
-    #value: int
+    community_cards: List[Card] = field(default_factory=lambda: [])
+
 
     def add_holdable(self, obj):
         self.holding.append(obj)
 
-    def is_suited(self, community_cards):
-        my_cards = self.holding + community_cards
+    def eval_hand(self):
+        my_cards = self.holding + self.community_cards
+
+
+
         for suit in SUITS:
             if sum(card.suit == suit for card in my_cards) >= 5:
-                for five_cards in combinations(my_cards, 5):
-                    print(five_cards)
-            for five_cards in combinations(my_cards, 5):
-                sum(hash(card) for card in five_cards)
+                suited_cards = [card for card in my_cards if card.suit == suit]
+                print(suited_cards)
+                return self.find_best_hand(suited_cards, suit_dep)
+        return self.find_best_hand(my_cards, not_suit_dep)
+
+    @staticmethod
+    def _hash_func(hand, hash_table):
+        ranks_of_hand = []
+        for card in hand:
+            ranks_of_hand.append(card.rank)
+        lookup_string="".join(sorted(ranks_of_hand))
+        print(lookup_string)
+        return hash_table.get(lookup_string)
+
+    def find_best_hand(self, cards, hash_table):
+        for five_cards in combinations(cards, 5):
+            value = self._hash_func(five_cards, hash_table)
+            if value is not None:
+                return value
 
 
 
 
-                #print(not_suit_dep.get(ranks))
 
-    def combination_of_hands(self, community_cards):
-        my_cards = self.holding + community_cards
+
+
+
+
 
 

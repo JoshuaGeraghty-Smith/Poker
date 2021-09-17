@@ -1,33 +1,30 @@
 import re
 import csv
+from texas_holdem_hashtable import suit_dep, not_suit_dep
 
 
-
-with open('poker_lookup_table.txt') as f:
-    lines = f.readlines()
-    for line in lines:
-        line=re.sub("\s+", ",", line.strip())
-        line = line.split(",")
-        empty_str=""
-        for index, item in enumerate(line):
-            if index > 4 and index < 10:
-                empty_str += item
-
-        del line[5:10]
-        line.insert(5,empty_str)
-        empty_str=""
-        for index, item in enumerate(line):
-            if index > 6:
-                empty_str += item
-
-        del line[7:]
-        line.append(empty_str)
+with open('poker_lookup_table.py', 'w') as file:
+    file.write("not_suit_dep = { \n")
+    a=[]
+    for key in not_suit_dep.keys():
+        b=sorted(key)
+        b="".join(b)
+        a.append(b)
 
 
+    for k, h in zip(a, not_suit_dep.keys()):
+        file.write("'%s':'%s', \n" % (k, not_suit_dep[h]))
+    file.write("}")
+
+    file.write("\n\n\nsuit_dep = { \n")
+    a=[]
+    for key in suit_dep.keys():
+        b=sorted(key)
+        b="".join(b)
+        a.append(b)
 
 
-
-        line = ",".join(line)
-        print(line)
-
+    for k, h in zip(a, suit_dep.keys()):
+        file.write("'%s':'%s', \n" % (k, suit_dep[h]))
+    file.write("}")
 

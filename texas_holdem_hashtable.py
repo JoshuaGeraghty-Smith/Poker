@@ -1,3 +1,25 @@
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 not_suit_dep = {'AAAAK': 11, 'AAAAQ': 12, 'AAAAJ': 13, 'AAAAT': 14, 'AAAA9': 15, 'AAAA8': 16, 'AAAA7': 17, 'AAAA6': 18, 'AAAA5': 19, 'AAAA4': 20, 'AAAA3': 21, 'AAAA2': 22, 'KKKKA': 23,
 'KKKKQ': 24, 'KKKKJ': 25, 'KKKKT': 26, 'KKKK9': 27, 'KKKK8': 28, 'KKKK7': 29, 'KKKK6': 30, 'KKKK5': 31, 'KKKK4': 32, 'KKKK3': 33, 'KKKK2': 34, 'QQQQA': 35, 'QQQQK': 36, 'QQQQJ': 37,
 'QQQQT': 38, 'QQQQ9': 39, 'QQQQ8': 40, 'QQQQ7': 41, 'QQQQ6': 42, 'QQQQ5': 43, 'QQQQ4': 44, 'QQQQ3': 45, 'QQQQ2': 46, 'JJJJA': 47, 'JJJJK': 48, 'JJJJQ': 49, 'JJJJT': 50, 'JJJJ9': 51,

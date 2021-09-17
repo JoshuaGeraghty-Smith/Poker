@@ -71,7 +71,6 @@ class TestLookupTable(unittest.TestCase):
 
 
         def test_hash_uniqueness(self):
-            print(self.suit_dep.keys())
             new_keys = []
             for five_cards in self.suit_dep.keys():
                 new_five_cards = []
@@ -89,7 +88,6 @@ class TestLookupTable(unittest.TestCase):
 
 
         def test_hash_uniqueness2(self):
-            print(self.suit_dep.keys())
             new_keys = []
             for five_cards in self.not_suit_dep.keys():
                 new_five_cards = []
