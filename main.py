@@ -1,9 +1,9 @@
-from card import Card, Deck, Hand, PokerHand
+from card import Card, FullDeck, Hand, PokerHand
 from player import Player, Humanoid, Bot
 
 num_of_cards_in_hand = 2
 
-deck = Deck()
+deck = FullDeck()
 deck.shuffle()
 
 
@@ -16,5 +16,9 @@ for _ in range(0, num_of_cards_in_hand):
     player2.hand.add_holdable(deck.deal_card())
 
 
-print(player1)
-print(player2)
+card1 = Card('Clubs', 'J', False)
+card2 = Card('Spades', '2', True)
+
+print(card1.sort_index)
+print(card2.sort_index)
+
