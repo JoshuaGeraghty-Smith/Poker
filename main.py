@@ -21,13 +21,13 @@ player2 = Bot(2, "Sam", PokerHand())
 
 
 
-hold=[Card('Diamonds', '5'),
+hold=[Card('Hearts', '7'),
 Card('Clubs', '6')]
 
-com=[Card('Clubs', '7'),
-Card('Clubs', 'A'),
-Card('Hearts', '9'),
+com=[Card('Diamonds', '7'),
+Card('Clubs', '7'),
 Card('Clubs', 'T'),
+Card('Clubs', 'J'),
 Card('Clubs', '8')]
 
 dom=(Card('Clubs', 'A'),
@@ -38,5 +38,5 @@ Card('Diamonds', 'A'))
 
 
 
-Troy=PokerHand(hold, community_cards=com )
-print(Troy.eval_hand())
+troy=PokerHand(com+hold)
+print(troy.eval_best_hand())

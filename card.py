@@ -106,43 +106,40 @@ class Hand(ABC):
 class PokerHand():
 
     holding: List[Card] = field(default_factory=lambda: [])
-    community_cards: List[Card] = field(default_factory=lambda: [])
 
 
     def add_holdable(self, obj):
         self.holding.append(obj)
 
-    def eval_hand(self):
-        my_cards = self.holding + self.community_cards
-
-
+    def eval_best_hand(self):
         suit_hand = []
         for suit in SUITS:
-            if sum(card.suit == suit for card in my_cards) >= 5:
-                suited_cards = [card for card in my_cards if card.suit == suit]
-                suit_hand=self.find_best_hand(suited_cards, hash_table=suit_dep)
+            if sum(card.suit == suit for card in self.holding) >= 5:
+                suited_cards = [card for card in self.holding if card.suit == suit]
+                suit_hand_values=self.value_possible_hands(suited_cards, hash_table=suit_dep)
+                print(suit_hand_values)
 
-        values=[self.find_best_hand(five_cards, not_suit_dep) for five_cards in combinations(my_cards, 5)]
-        values = [x for x in values if x is not None]
-        return min(min(values), suit_hand)
+
+        values=self.value_possible_hands(self.holding, hash_table=not_suit_dep)
+        values = values + suit_hand_values
+        return min(values)
 
 
     @staticmethod
-    def _hash_func(hand, hash_table):
+    def _hash_lookup(hand, hash_table):
         ranks_of_hand = []
         for card in hand:
             ranks_of_hand.append(card.rank)
         lookup_string="".join(sorted(ranks_of_hand))
         return hash_table.get(lookup_string)
 
-    def find_best_hand(self, cards, hash_table):
+    def value_possible_hands(self, cards, hash_table):
+        values=[]
         for five_cards in combinations(cards, 5):
-            value = self._hash_func(five_cards, hash_table)
+            value = self._hash_lookup(five_cards, hash_table)
             if value is not None:
-                return int(value)
-        return None
-
-
+                values.append(int(value))
+        return values
 
 
 
