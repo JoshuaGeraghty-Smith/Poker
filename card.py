@@ -112,12 +112,11 @@ class PokerHand():
         self.holding.append(obj)
 
     def eval_best_hand(self):
-        suit_hand = []
+        suit_hand_values = []
         for suit in SUITS:
             if sum(card.suit == suit for card in self.holding) >= 5:
                 suited_cards = [card for card in self.holding if card.suit == suit]
                 suit_hand_values=self.value_possible_hands(suited_cards, hash_table=suit_dep)
-                print(suit_hand_values)
 
 
         values=self.value_possible_hands(self.holding, hash_table=not_suit_dep)

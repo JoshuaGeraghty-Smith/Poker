@@ -71,37 +71,7 @@ class TestLookupTable(unittest.TestCase):
 
 
         def test_hash_uniqueness(self):
-            new_keys = []
-            for five_cards in self.suit_dep.keys():
-                new_five_cards = []
-                for rank in five_cards:
-                    card = Card('Spades', rank, False)
-                    new_five_cards.append(card)
-                new_keys.append(five_cards)
-            hashed_keys = []
-            for five_cards in new_keys:
-                hand_hash = sum(hash(card) for card in five_cards)
-                hashed_keys.append(hand_hash)
 
-            print(hashed_keys)
-            self.assertEqual(np.unique(hashed_keys).size, len(hashed_keys))
-
-
-        def test_hash_uniqueness2(self):
-            new_keys = []
-            for five_cards in self.not_suit_dep.keys():
-                new_five_cards = []
-                for rank in five_cards:
-                    card = Card('Spades', rank, False)
-                    new_five_cards.append(card)
-                new_keys.append(five_cards)
-            hashed_keys = []
-            for five_cards in new_keys:
-                hand_hash = sum(hash(card) for card in five_cards)
-                hashed_keys.append(hand_hash)
-
-            print(hashed_keys)
-            self.assertEqual(np.unique(hashed_keys).size, len(hashed_keys))
 
 
 if __name__ == "__main__":
