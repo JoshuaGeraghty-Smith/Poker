@@ -2,11 +2,17 @@ from dataclasses import field, dataclass
 from typing import List
 
 @dataclass
-class Tables():
+class Table():
+
+"""    
+This class adds players to the table, lays community cards onto the table and 
+adds chips to the pot
+"""
+
     players: List = field(default_factory=lambda: [])
     
     def set_players(self, player):
-        self.Tables.append(player)
+        self.players.append(player)
         
     pot: int = 0
     
@@ -15,5 +21,5 @@ class Tables():
     
     community_cards: List = field(default_factory=lambda: [])
     
-        def lay_community_cards(card):
-            self.Tables.append(card)
+    def lay_community_cards(card):
+        self.community_cards.append(card)
