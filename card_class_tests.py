@@ -71,7 +71,7 @@ class TestLookupTable(unittest.TestCase):
 
 
         def test_hash_uniqueness(self):
-
+            pass
 
 
 if __name__ == "__main__":

@@ -1,7 +1,7 @@
 from card import Card, FullDeck, Hand, PokerHand
 from player import Player, Humanoid, Bot
 
-from poker_lookup_table import suit_dep, not_suit_dep
+from texas_holdem_hashtable import suit_dep, not_suit_dep
 
 
 num_of_cards_in_hand = 2

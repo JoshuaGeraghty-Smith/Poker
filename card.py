@@ -1,11 +1,10 @@
 from dataclasses import dataclass, field, astuple
 from abc import ABC, abstractmethod
 import random
-from poker_lookup_table import suit_dep, not_suit_dep
+from texas_holdem_hashtable import suit_dep, not_suit_dep
 from typing import List
 from itertools import combinations
-import numpy as np
-from collections import namedtuple
+
 
 SUITS = ('Clubs', 'Spades', 'Hearts', 'Diamonds')
 RANKS = ('2', '3', '4', '5', '6', '7', '8', '9', 'T', 'J', 'Q', 'K', 'A')
