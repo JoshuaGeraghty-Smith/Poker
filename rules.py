@@ -5,12 +5,12 @@ from typing import List
 class Table():
 
 """    
-This class adds players to the table, lays community cards onto the table and 
+This class adds players to the table with a seats limit, lays community cards onto the table and 
 adds chips to the pot
 """
 
     players: List = field(default_factory=lambda: [])
-    seats: int = 0
+    seats: int = 8
     community_cards: List = field(default_factory=lambda: [])
     pot: int = 0
     
