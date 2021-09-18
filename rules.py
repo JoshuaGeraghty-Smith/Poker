@@ -10,17 +10,18 @@ adds chips to the pot
 """
 
     players: List = field(default_factory=lambda: [])
-    
-    def set_players(self, player):
-        self.players.append(player)
-        
-        
+    seats: int = 0
+    community_cards: List = field(default_factory=lambda: [])
     pot: int = 0
     
+    def add_player(self, player):
+        if len(players) < self.seats:
+            self.players.append(player)
+        
+            
     def set_pot():
         pass
     
-    community_cards: List = field(default_factory=lambda: [])
     
     def lay_community_cards(card):
         self.community_cards.append(card)
