@@ -1,6 +1,9 @@
 from card import Card, FullDeck, Hand, PokerHand
 from player import Player, Humanoid, Bot
 
+from poker_lookup_table import suit_dep, not_suit_dep
+
+
 num_of_cards_in_hand = 2
 
 deck = FullDeck()
@@ -16,9 +19,26 @@ for _ in range(0, num_of_cards_in_hand):
     player2.hand.add_holdable(deck.deal_card())
 
 
-card1 = Card('Clubs', 'J', False)
-card2 = Card('Spades', '2', True)
+com=[]
+for _ in range(0, 5):
+    com.append(deck.deal_card())
 
-print(card1.sort_index)
-print(card2.sort_index)
+
+
+for i in com:
+    player1.hand.add_holdable(i)
+    player2.hand.add_holdable(i)
+
+
+print(player1.hand)
+print(player2.hand)
+if player1.hand.eval_best_hand() == player2.hand.eval_best_hand():
+    print('Draw')
+
+elif player1.hand.eval_best_hand() < player2.hand.eval_best_hand():
+    print(player1.name + ' wins')
+
+elif player1.hand.eval_best_hand() > player2.hand.eval_best_hand():
+    print(player2.name + ' wins')
+
 

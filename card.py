@@ -1,13 +1,17 @@
 from dataclasses import dataclass, field, astuple
 from abc import ABC, abstractmethod
 import random
+from poker_lookup_table import suit_dep, not_suit_dep
 from typing import List
+from itertools import combinations
+import numpy as np
+from collections import namedtuple
 
 SUITS = ('Clubs', 'Spades', 'Hearts', 'Diamonds')
-RANKS = ('2', '3', '4', '5', '6', '7', '8', '9', '10', 'J', 'Q', 'K', 'A')
+RANKS = ('2', '3', '4', '5', '6', '7', '8', '9', 'T', 'J', 'Q', 'K', 'A')
 
 
-@dataclass(order=True)
+@dataclass(order=True, eq=True, frozen=True)
 class Card():
     """
     Class to model a card.
@@ -20,14 +24,10 @@ class Card():
 
     Hidden is a bool value, to note if players can see the card or not.
     """
-
-    sort_index: int = field(init=False, repr=False)
+    __slots__ = ('rank', 'suit')
     suit: SUITS
     rank: RANKS
-    hidden: bool
 
-    def __post_init__(self):
-        self.sort_index = (RANKS.index(self.rank))
 
     def __eq__(self, other):
         """
@@ -51,7 +51,7 @@ class FullDeck():
 
     # Lambda function creates a list of 52 unique Cards using the SUITS and RANKS tuples.
 
-    cards: List[Card] = field(default_factory=lambda: [Card(suit, rank, False) for suit in SUITS for rank in RANKS])
+    cards: List[Card] = field(default_factory=lambda: [Card(suit, rank) for suit in SUITS for rank in RANKS])
 
     def __iter__(self):
         yield from astuple(self)
@@ -101,7 +101,49 @@ class Hand(ABC):
     def add_holdable(self, obj):
         pass
 
-class PokerHand(Hand):
+
+@dataclass()
+class PokerHand():
+
+    holding: List[Card] = field(default_factory=lambda: [])
+
 
     def add_holdable(self, obj):
         self.holding.append(obj)
+
+    def eval_best_hand(self):
+        suit_hand_values = []
+        for suit in SUITS:
+            if sum(card.suit == suit for card in self.holding) >= 5:
+                suited_cards = [card for card in self.holding if card.suit == suit]
+                suit_hand_values=self.value_possible_hands(suited_cards, hash_table=suit_dep)
+
+
+        values=self.value_possible_hands(self.holding, hash_table=not_suit_dep)
+        values = values + suit_hand_values
+        return min(values)
+
+
+    @staticmethod
+    def _hash_lookup(hand, hash_table):
+        ranks_of_hand = []
+        for card in hand:
+            ranks_of_hand.append(card.rank)
+        lookup_string="".join(sorted(ranks_of_hand))
+        return hash_table.get(lookup_string)
+
+    def value_possible_hands(self, cards, hash_table):
+        values=[]
+        for five_cards in combinations(cards, 5):
+            value = self._hash_lookup(five_cards, hash_table)
+            if value is not None:
+                values.append(int(value))
+        return values
+
+
+
+
+
+
+
+
